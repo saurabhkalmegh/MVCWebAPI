@@ -1,0 +1,51 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script>
+        function sendAjaxRequest(httpMethod, url, callback, reqData) {
+            $.ajax(url, {
+                type: httpMethod,
+                dataType: 'json',
+                success: callback,
+                error: function (request, status, error) {
+                    alert(status);
+                    alert(error);
+                },
+                data: reqData
+            });
+        }
+        function getEmployees() {
+            alert("getting Employees");
+            sendAjaxRequest("GET", "/api/WebApiEmps", function (data) {
+                alert("got data");
+                alert(data);
+                var target = document.getElementById("tbl");
+
+                for (var i = 0; i < data.length; i++) {
+                    var record = data[i];
+                    target.innerHTML += "<tr><td>EmpName:" + record.EmpName + "</td></tr>";
+                    target.innerHTML += "<td>Emp Skill:" + record.Skill + "</td>";
+                    target.innerHTML += "<tr><td>Place:" + record.Place + "</td></tr>";
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+    <div>
+        <button type="button" onclick="getEmployees()">Click Me!</button>
+    </div>
+    <div id="div1">
+        <table id="tbl"></table>
+    </div>
+</body>
+</html>
